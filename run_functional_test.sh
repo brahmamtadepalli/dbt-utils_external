@@ -10,4 +10,4 @@ if [[ ! -f $VENV ]]; then
 fi
 
 . $VENV
-python3 -m pytest tests/functional --profile $1
+python3 -m pytest tests/functional -n4 --profile $1
