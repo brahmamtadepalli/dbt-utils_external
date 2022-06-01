@@ -5,8 +5,8 @@ if [[ ! -f $VENV ]]; then
     python3 -m venv venv
     . $VENV
 
-    pip install --upgrade pip setuptools
-    pip install --pre "dbt-$1"
+    python3 -m pip install --upgrade pip setuptools
+    python3 -m pip install --pre "dbt-$1"
 fi
 
 . $VENV
