@@ -13,7 +13,7 @@ seeds:
   - name: expected
     config:
       column_types:
-        numeric_col: numeric(5,4)
+        numeric_col: {}
 """
 
 models__actual_sql = """
@@ -32,12 +32,15 @@ macros__legacy_sql = """
 """
 
 
-class TestTypeNumeric(BaseDataTypeMacro):
+class BaseTypeNumeric(BaseDataTypeMacro):
+    def numeric_fixture_type(self):
+        return "numeric(5,4)"
+    
     @pytest.fixture(scope="class")
     def seeds(self):
         return {
             "expected.csv": seeds__expected_csv,
-            "expected.yml": seeds__expected_yml
+            "expected.yml": seeds__expected_yml.format(self.numeric_fixture_type())
         }
     
     @pytest.fixture(scope="class")
@@ -47,12 +50,35 @@ class TestTypeNumeric(BaseDataTypeMacro):
         }
 
 
-class TestTypeNumericLegacy(TestTypeNumeric):
+@pytest.mark.skip_profile('bigquery')
+class TestTypeNumeric(BaseTypeNumeric):
+    pass
+
+
+class BaseTypeNumericLegacy(TestTypeNumeric):
     @pytest.fixture(scope="class")
     def macros(self):
         return {
             "legacy.sql": macros__legacy_sql
         }
 
+    # perform a slightly more lenient comparison, xfail if subtly different
     def is_legacy(self):
         return True
+
+
+@pytest.mark.skip_profile('bigquery')
+class TestTypeNumericLegacy(BaseTypeNumericLegacy):
+    pass
+
+
+@pytest.mark.only_profile('bigquery')
+class TestBigQueryTypeNumeric(BaseTypeNumeric):
+    def numeric_fixture_type(self):
+        return "numeric"
+
+
+@pytest.mark.only_profile('bigquery')
+class TestBigQueryTypeNumericLegacy(BaseTypeNumericLegacy):
+    def numeric_fixture_type(self):
+        return "numeric"

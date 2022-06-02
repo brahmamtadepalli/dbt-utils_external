@@ -22,7 +22,7 @@ macros__legacy_sql = """
 """
 
 
-class TestTypeBigInt(BaseDataTypeMacro):
+class BaseTypeBigInt(BaseDataTypeMacro):
     @pytest.fixture(scope="class")
     def models(self):
         return {
@@ -31,12 +31,21 @@ class TestTypeBigInt(BaseDataTypeMacro):
         }
 
 
-class TestTypeBigIntLegacy(TestTypeBigInt):
+class TestTypeBigInt(BaseTypeBigInt):
+    pass
+
+
+class BaseTypeBigIntLegacy(TestTypeBigInt):
     @pytest.fixture(scope="class")
     def macros(self):
         return {
             "legacy.sql": macros__legacy_sql
         }
 
+    # perform a slightly more lenient comparison, xfail if subtly different
     def is_legacy(self):
         return True
+
+
+class TestTypeBigIntLegacy(BaseTypeBigIntLegacy):
+    pass

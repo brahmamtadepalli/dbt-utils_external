@@ -22,7 +22,7 @@ macros__legacy_sql = """
 """
 
 
-class TestTypeFloat(BaseDataTypeMacro):
+class BaseTypeFloat(BaseDataTypeMacro):
     @pytest.fixture(scope="class")
     def seeds(self):
         return {
@@ -36,12 +36,21 @@ class TestTypeFloat(BaseDataTypeMacro):
         }
 
 
-class TestTypeFloatLegacy(TestTypeFloat):
+class TestTypeFloat(BaseTypeFloat):
+    pass
+
+
+class BaseTypeFloatLegacy(BaseTypeFloat):
     @pytest.fixture(scope="class")
     def macros(self):
         return {
             "legacy.sql": macros__legacy_sql
         }
 
+    # perform a slightly more lenient comparison, xfail if subtly different
     def is_legacy(self):
         return True
+
+
+class TestTypeFloatLegacy(BaseTypeFloatLegacy):
+    pass

@@ -59,8 +59,10 @@ The TIMESTAMP_* variation associated with TIMESTAMP is specified by the
 TIMESTAMP_TYPE_MAPPING session parameter. The default is TIMESTAMP_NTZ.
 
 BIGQUERY
-'timestamp' means 'timestamp with time zone'
-'datetime' means 'timestamp without time zone'
+TIMESTAMP means 'timestamp with time zone'
+DATETIME means 'timestamp without time zone'
+TODO: shouldn't this return DATETIME instead of TIMESTAMP, for consistency with other databases?
+e.g. dateadd returns a DATETIME
 
 /* Snowflake:
 https://docs.snowflake.com/en/sql-reference/data-types-datetime.html#timestamp
