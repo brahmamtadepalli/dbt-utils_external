@@ -30,7 +30,7 @@ macros__legacy_sql = """
 """
 
 
-class BaseTypeString(BaseDataTypeMacro):
+class TestTypeString(BaseDataTypeMacro):
     @pytest.fixture(scope="class")
     def seeds(self):
         return {
@@ -44,11 +44,7 @@ class BaseTypeString(BaseDataTypeMacro):
         }
 
 
-class TestTypeString(BaseTypeString):
-    pass
-
-
-class BaseTypeStringLegacy(TestTypeString):
+class TestTypeStringLegacy(TestTypeString):
     @pytest.fixture(scope="class")
     def macros(self):
         return {
@@ -58,7 +54,3 @@ class BaseTypeStringLegacy(TestTypeString):
     # perform a slightly more lenient comparison, xfail if subtly different
     def is_legacy(self):
         return True
-
-
-class TestTypeStringLegacy(BaseTypeStringLegacy):
-    pass

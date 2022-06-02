@@ -50,12 +50,7 @@ class BaseTypeNumeric(BaseDataTypeMacro):
         }
 
 
-@pytest.mark.skip_profile('bigquery')
-class TestTypeNumeric(BaseTypeNumeric):
-    pass
-
-
-class BaseTypeNumericLegacy(TestTypeNumeric):
+class BaseTypeNumericLegacy(BaseTypeNumeric):
     @pytest.fixture(scope="class")
     def macros(self):
         return {
@@ -65,6 +60,11 @@ class BaseTypeNumericLegacy(TestTypeNumeric):
     # perform a slightly more lenient comparison, xfail if subtly different
     def is_legacy(self):
         return True
+
+
+@pytest.mark.skip_profile('bigquery')
+class TestTypeNumeric(BaseTypeNumeric):
+    pass
 
 
 @pytest.mark.skip_profile('bigquery')
